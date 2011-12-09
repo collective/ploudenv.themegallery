@@ -12,7 +12,7 @@
         category="Products"
         condition_expr=""
         url_expr="string:${portal_url}/@@ploud-themegallery"
-        icon_expr="string:${portal_url}/@@ploud-16x16.png"
+        icon_expr="string:${portal_url}/++resource++ploud-16x16.png"
         visible="True"
         i18n:attributes="title">
             <permission>Plone Site Setup: Themes</permission>
