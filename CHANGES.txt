@@ -2,8 +2,11 @@
 Changes
 =======
 
+0.2dev (unreleased)
+-------------------
+- Add icon & change category of action in control panel
 
 0.1.0 (12-09-2011)
 ------------------
 
--  Initial version
+- Initial version
