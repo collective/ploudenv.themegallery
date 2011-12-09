@@ -1,0 +1,20 @@
+<configure
+   xmlns="http://namespaces.zope.org/zope"
+   xmlns:five="http://namespaces.zope.org/five"
+   xmlns:browser="http://namespaces.zope.org/browser"
+   i18n_domain="ploudenv.themegallery">
+
+  <include file="profiles.zcml" />
+  <include package="plone.app.controlpanel" />
+
+  <five:registerPackage package="." initialize=".initialize" />
+
+  <browser:page
+      name="ploud-themegallery"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".themegallery.PloudThemeGallery"
+      template="themegallery.pt"
+      permission="plone.app.controlpanel.Themes"
+      />
+
+</configure>

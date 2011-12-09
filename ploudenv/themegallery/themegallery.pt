@@ -1,0 +1,47 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="context/prefs_main_template/macros/master"
+      i18n:domain="ploudenv.themegallery">
+
+<body>
+
+<div metal:fill-slot="prefs_configlet_main">
+
+    <h1 class="documentFirstHeading"
+        i18n:translate="heading_theme_settings">Ploud theme gallery</h1>
+
+    <a href=""
+        class="link-parent"
+        tal:attributes="href string:${portal_url}/plone_control_panel"
+        i18n:translate="label_up_to_plone_setup">
+            Up to Site Setup
+    </a>
+
+    <table>
+      <tr tal:repeat="theme python:view.load()"
+	  style="vertical-align: top">
+	<td>
+	  <img width="210" 
+	       tal:condition="theme/thumbnail"
+	       tal:attributes="src python:'%s/%s/data'%(view.base_url, theme['thumbnail'])" />
+	  <br /><br />
+	</td>
+
+	<td style="padding-left: 1em">
+	  <h4 tal:content="python:theme['title']"></h4>
+	  <div tal:content="python:theme['description']"></div>
+
+	  <form action="@@ploud-themegallery" method="post">
+	    <input type="hidden" name="theme_uuid"
+		   tal:attributes="value python:theme['theme-file']" />
+	    <input type="submit" name="form.button.install" value="Install" />
+	  </form>
+	</td>
+      </tr>
+    </table>
+</div>
+
+</body>
+</html>

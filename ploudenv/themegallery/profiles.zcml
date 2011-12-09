@@ -1,0 +1,13 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    i18n_domain="ploudenv.themegallery">
+
+  <genericsetup:registerProfile
+     name="default"
+     title="Ploud theme gallery"
+     description="Client for Ploud theme gallery"
+     directory="profiles/default"
+     provides="Products.GenericSetup.interfaces.EXTENSION" />
+
+</configure>
