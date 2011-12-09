@@ -9,6 +9,11 @@
 
   <five:registerPackage package="." initialize=".initialize" />
 
+  <browser:resource
+      name="ploud-16x16.png"
+      image="ploud-16x16.png"
+      />
+
   <browser:page
       name="ploud-themegallery"
       for="Products.CMFPlone.interfaces.IPloneSiteRoot"
