@@ -1,4 +1,2 @@
-# python package
-
-def initialize(*args):
-    pass
+from zope.i18nmessageid import MessageFactory
+_ = MessageFactory('ploudenv.themegallery')

@@ -1,0 +1,10 @@
+.available-theme{
+    width: 30%;
+    min-height: 250px;
+    float: left;
+    margin: 5px 1em;
+}
+.available-theme img{
+    margin: 0px auto;
+    width:210px;
+}

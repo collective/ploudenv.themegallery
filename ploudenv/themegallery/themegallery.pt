@@ -4,7 +4,6 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       metal:use-macro="context/prefs_main_template/macros/master"
       i18n:domain="ploudenv.themegallery">
-
 <body>
 
 <div metal:fill-slot="prefs_configlet_main">
@@ -15,32 +14,53 @@
     <a href=""
         class="link-parent"
         tal:attributes="href string:${portal_url}/plone_control_panel"
-        i18n:translate="label_up_to_plone_setup">
+        i18n:translate="label_up_to_plone_setup" i18n:domain="plone">
             Up to Site Setup
     </a>
 
-    <table>
-      <tr tal:repeat="theme python:view.load()"
-	  style="vertical-align: top">
-	<td>
-	  <img width="210" 
-	       tal:condition="theme/thumbnail"
-	       tal:attributes="src python:'%s/%s/data'%(view.base_url, theme['thumbnail'])" />
-	  <br /><br />
-	</td>
-
-	<td style="padding-left: 1em">
-	  <h4 tal:content="python:theme['title']"></h4>
-	  <div tal:content="python:theme['description']"></div>
-
-	  <form action="@@ploud-themegallery" method="post">
-	    <input type="hidden" name="theme_uuid"
-		   tal:attributes="value python:theme['theme-file']" />
-	    <input type="submit" name="form.button.install" value="Install" />
-	  </form>
-	</td>
-      </tr>
-    </table>
+    <div>
+     <tal:themes repeat="theme python:view.load()">
+          <div class="available-theme">
+            <a href="#"
+                tal:attributes="title string: Preview '${theme/title}'">
+              <img tal:condition="theme/thumbnail"
+                   tal:attributes="src python:'%s/%s/data'%(view.base_url, theme['thumbnail'])" />
+            </a>
+            <h3 tal:content="python:theme['title']">theme title</h3>
+            <span class="action-links">
+              <form action="@@ploud-themegallery" method="post">
+                <input type="hidden" name="theme_uuid"
+                   tal:attributes="value python:theme['theme-file']" />
+                <input type="submit" name="form.button.install" value="Install" i18n:attributes="value" />
+              </form>
+            </span>
+            <p tal:content="python:theme['description']"></p>
+            <dl class="collapsible collapsedOnLoad">
+                <dt class="collapsibleHeader" i18n:translate="legend_details" i18n:domain="plone">
+                    Details
+                </dt>
+                <dd class="collapsibleContent">
+                    <dl>
+                        <dt i18n:translate="label_author" i18n:domain="plone">Author</dt>
+                        <dd>
+                            <a href="#" tal:attributes="href string: mailto:${theme/email}"
+                             tal:content="theme/author" />   
+                        </dd>
+                        <dt i18n:translate="box_last_modified"
+                            i18n:domain="plone">Last modified</dt>
+                        <dd tal:content="python: context.toLocalizedTime(theme['modified'])"></dd>
+                        <dt i18n:translate="label_url" i18n:domain="plone">URL</dt>
+                        <dd>
+                            <a href="#" tal:attributes="href theme/url" tal:content="theme/url" />
+                        </dd>
+                    </dl>
+                </dd>
+            </dl>
+          </div>
+          <div class="visualClear"
+            tal:condition="python: repeat['theme'].number() >= 3 and not repeat['theme'].number() % 3"><!-- --></div>
+      </tal:themes>
+    </div>
 </div>
 
 </body>

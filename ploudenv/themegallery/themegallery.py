@@ -20,7 +20,8 @@ from plone.app.theming.utils import getOrCreatePersistentResourceDirectory
 from plone.app.theming.plugins.utils import getPluginSettings
 from plone.app.theming.plugins.utils import getPlugins
 from plone.app.theming.interfaces import THEME_RESOURCE_NAME
-
+from plone.memoize import instance
+from ploudenv.themegallery import _
 
 logger = logging.getLogger('ploudenv.themegallery')
 
@@ -115,4 +116,4 @@ class PloudThemeGallery(BrowserView):
                         self.settings.enabled = True
 
                         IStatusMessage(self.request).add(
-                            "Theme has been installed.")
+                            _("Theme has been installed."))
