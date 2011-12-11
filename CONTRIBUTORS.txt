@@ -1,0 +1,2 @@
+Nikolay Kim <nikolay@enfoldsystems.com>, author
+Giacomo Spettoli <giacomo.spettoli@gmail.com>

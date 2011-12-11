@@ -5,6 +5,8 @@ Changes
 0.2dev (unreleased)
 -------------------
 - Add icon & change category of action in control panel
+- Add browserlayer, resourcedirectory, css and  i18n support 
+  [giacomos]
 
 0.1.0 (12-09-2011)
 ------------------

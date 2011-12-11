@@ -4,14 +4,22 @@ from setuptools import setup, find_packages
 VERSION = '0.2dev'
 
 here = os.path.abspath(os.path.dirname(__file__))
-README = open(os.path.join(here, 'README.txt')).read()
-CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
+long_description = (
+    open('README.txt').read()
+    + '\n' +
+    'Contributors\n'
+    '============\n'
+    + '\n' +
+    open('CONTRIBUTORS.txt').read()
+    + '\n' +
+    open('CHANGES.txt').read()
+    + '\n')
 
 
 setup(name='ploudenv.themegallery',
       version='0.1.0',
       description='Ploud theme gallery',
-      long_description=README + '\n\n' +  CHANGES,
+      long_description=long_description,
       classifiers=[
         "Programming Language :: Python",
         "Framework :: Plone",
