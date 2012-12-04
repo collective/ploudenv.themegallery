@@ -18,27 +18,39 @@
         i18n:translate="label_up_to_plone_setup">
             Up to Site Setup
     </a>
+    <form method="link"
+        action="@@ploud-themegallery-settings"
+        tal:attributes="href string:${portal_url}/@@ploud-themegallery-settings">
+    <input type="submit" value="Settings">
+    </form>
 
-    <table>
-      <tr tal:repeat="theme python:view.load()"
-	  style="vertical-align: top">
-	<td>
-	  <img width="210" 
-	       tal:condition="theme/thumbnail"
-	       tal:attributes="src python:'%s/%s/data'%(view.base_url, theme['thumbnail'])" />
-	  <br /><br />
-	</td>
+    <table tal:define="themes python:view.load()">
+      <tr tal:repeat="theme themes"
+      style="vertical-align: top">
+        <td>
+          <img width="210"
+               tal:condition="theme/thumbnail"
+               tal:attributes="src python:'%s/%s/data'%(view.base_url, theme['thumbnail'])" />
+          <br /><br />
+        </td>
 
-	<td style="padding-left: 1em">
-	  <h4 tal:content="python:theme['title']"></h4>
-	  <div tal:content="python:theme['description']"></div>
+        <td style="padding-left: 1em">
+          <h4 tal:content="python:theme['title']"></h4>
+          <div tal:content="python:theme['description']"></div>
 
-	  <form action="@@ploud-themegallery" method="post">
-	    <input type="hidden" name="theme_uuid"
-		   tal:attributes="value python:theme['theme-file']" />
-	    <input type="submit" name="form.button.install" value="Install" />
-	  </form>
-	</td>
+          <form action="@@ploud-themegallery" method="post" tal:condition="python:theme['theme-file']">
+            <input type="hidden" name="theme_uuid"
+               tal:attributes="value python:theme['theme-file']" />
+            <input type="submit" name="form.button.install" value="Install" />
+          </form>
+        </td>
+      </tr>
+      <tr tal:condition="not:themes" i18n:translate="no_themes_found">
+        No Themes found, check your
+        <a href="@@ploud-themegallery-settings"
+            tal:attributes="href string:${portal_url}/@@ploud-themegallery-settings">
+            Settings
+        </a>
       </tr>
     </table>
 </div>

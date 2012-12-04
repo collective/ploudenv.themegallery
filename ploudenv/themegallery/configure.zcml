@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <configure
    xmlns="http://namespaces.zope.org/zope"
    xmlns:five="http://namespaces.zope.org/five"
@@ -21,5 +22,13 @@
       template="themegallery.pt"
       permission="plone.app.controlpanel.Themes"
       />
+
+  <browser:page
+      name="ploud-themegallery-settings"
+      for="Products.CMFPlone.interfaces.IPloneSiteRoot"
+      class=".themegallery.ThemeGalleryControlPanel"
+      permission="plone.app.controlpanel.Themes"
+      />
+
 
 </configure>

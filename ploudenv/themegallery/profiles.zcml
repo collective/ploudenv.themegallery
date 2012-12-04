@@ -1,3 +1,4 @@
+<?xml version="1.0"?>
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
@@ -9,5 +10,16 @@
      description="Client for Ploud theme gallery"
      directory="profiles/default"
      provides="Products.GenericSetup.interfaces.EXTENSION" />
+
+
+  <!-- Register the upgrade step -->
+  <genericsetup:upgradeStep
+      title="Add registry setting"
+      description=""
+      source="1001"
+      destination="1002"
+      handler="ploudenv.themegallery.setuphandlers.add_registry"
+      profile="ploudenv.themegallery:default" />
+
 
 </configure>

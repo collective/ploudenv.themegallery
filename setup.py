@@ -9,7 +9,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.txt')).read()
 
 
 setup(name='ploudenv.themegallery',
-      version='0.1.0',
+      version='0.2.0',
       description='Ploud theme gallery',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[
@@ -28,6 +28,7 @@ setup(name='ploudenv.themegallery',
         'simplejson',
         'Products.CMFPlone',
         'plone.app.theming',
+        'plone.app.registry',
       ],
       entry_points="""
         # -*- Entry points: -*-

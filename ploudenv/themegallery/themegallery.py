@@ -3,14 +3,21 @@ import simplejson as json
 import pprint, urllib, logging
 from zope.publisher.browser import BrowserView
 
+from z3c.form import button
+
 from Products.CMFCore.utils import getToolByName
 from Products.Five.browser.decode import processInputs
 from Products.statusmessages.interfaces import IStatusMessage
 
 import zipfile
 from zope.component import getUtility
+
 from plone.registry.interfaces import IRegistry
+
+from plone.app.registry.browser import controlpanel
+
 from plone.resource.utils import queryResourceDirectory
+
 from plone.app.theming.interfaces import IThemeSettings
 from plone.app.theming.utils import extractThemeInfo
 from plone.app.theming.utils import getZODBThemes
@@ -21,10 +28,10 @@ from plone.app.theming.plugins.utils import getPluginSettings
 from plone.app.theming.plugins.utils import getPlugins
 from plone.app.theming.interfaces import THEME_RESOURCE_NAME
 
+from ploudenv.themegallery.interfaces import IThemeGallerySettingsSchema
+from ploudenv.themegallery import themegalleryMessageFactory as _
 
 logger = logging.getLogger('ploudenv.themegallery')
-
-api = 'https://ploud.com/__rest__/cms/applications'
 
 
 class PloudThemeGallery(BrowserView):
@@ -32,13 +39,24 @@ class PloudThemeGallery(BrowserView):
     error = None
 
     base_url = 'https://ploud.com/__rest__/cms/content:themes'
+    api = 'https://ploud.com/__rest__/cms/applications'
 
     def __call__(self):
         self.update()
         return self.index()
 
     def load(self):
-        data = json.loads(urllib.urlopen(api).read())
+        try:
+            data = json.loads(urllib.urlopen(self.api).read())
+        except json.JSONDecodeError, e:
+            import ipdb; ipdb.set_trace()
+
+            return [
+            {   "title": "Error",
+            "description": e.msg,
+            "theme-file": None,
+            "thumbnail": None,  }
+            ]
 
         link = ''
         for rec in data:
@@ -70,7 +88,14 @@ class PloudThemeGallery(BrowserView):
         form = self.request.form
         self.settings = getUtility(IRegistry).forInterface(
             IThemeSettings, False)
+        gallerysettings = getUtility(IRegistry).forInterface(
+            IThemeGallerySettingsSchema, False)
 
+        url = gallerysettings.tgserver_url
+        if not url.endswith('/'):
+            url +='/'
+        self.base_url = '%s__rest__/cms/content:themes' % url
+        self.api = '%s__rest__/cms/applications' % url
         if 'form.button.install' in form:
             theme = form.get('theme_uuid', None)
 
@@ -116,3 +141,27 @@ class PloudThemeGallery(BrowserView):
 
                         IStatusMessage(self.request).add(
                             "Theme has been installed.")
+
+class ThemeGallerySettings(controlpanel.RegistryEditForm):
+    schema = IThemeGallerySettingsSchema
+    label = _(u'Theme Gallery Settings')
+    description = _(u'Define the theme gallery settings')
+
+    @button.buttonAndHandler(_('Save'), name='save')
+    def handleSave(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        changes = self.applyChanges(data)
+        IStatusMessage(self.request).addStatusMessage(_(u"Changes saved"), "info")
+        self.request.response.redirect("%s/%s" % (self.context.absolute_url(), '@@ploud-themegallery'))
+
+    @button.buttonAndHandler(_('Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(_(u"Edit cancelled"), "info")
+        self.request.response.redirect("%s/%s" % (self.context.absolute_url(), '@@ploud-themegallery'))
+
+
+class ThemeGalleryControlPanel(controlpanel.ControlPanelFormWrapper):
+    form = ThemeGallerySettings
