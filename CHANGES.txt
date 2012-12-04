@@ -5,6 +5,11 @@ Changes
 0.2dev (unreleased)
 -------------------
 - Add icon & change category of action in control panel
+- server for themegallery configurable [nan]
+- controlpanel form to configure the themegallery server [nan]
+- error handling if server does not return valid json [nan]
+
+
 
 0.1.0 (12-09-2011)
 ------------------
